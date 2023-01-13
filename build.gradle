@@ -20,8 +20,8 @@ archivesBaseName = project.name
 def baseVersion = '1.0'
 
 def ENV = System.getenv()
-if (ENV.BUILD_NUMBER) {
-    version = baseVersion + '.' + ENV.BUILD_NUMBER
+if (ENV.GITHUB_RUN_NUMBER) {
+    version = baseVersion + '.' + ENV.GITHUB_RUN_NUMBER
 } else {
     version = baseVersion + '.local'
 }
