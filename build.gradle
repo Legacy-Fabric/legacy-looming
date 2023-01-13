@@ -1,6 +1,3 @@
-import org.w3c.dom.Document
-import org.w3c.dom.Element
-
 plugins {
     id 'java'
     id 'maven-publish'
@@ -62,6 +59,9 @@ gradlePlugin {
     }
 }
 
+import org.w3c.dom.Document
+import org.w3c.dom.Element
+
 publishing {
     publications {
         plugin(MavenPublication) { publication ->
@@ -103,12 +103,15 @@ publishing {
         }
     }
     repositories {
-        maven {
-            if (ENV.MAVEN_URL) {
-                url ENV.MAVEN_URL
+        if (ENV.MAVEN_PUBLISH_CREDENTIALS) {
+            maven {
+                url "https://repo.legacyfabric.net/repository/legacyfabric"
                 credentials {
-                    username ENV.MAVEN_USERNAME
-                    password ENV.MAVEN_PASSWORD
+                    username ENV.MAVEN_PUBLISH_CREDENTIALS.split(":")[0]
+                    password ENV.MAVEN_PUBLISH_CREDENTIALS.split(":")[1]
+                }
+                authentication {
+                    basic(BasicAuthentication)
                 }
             }
         }
