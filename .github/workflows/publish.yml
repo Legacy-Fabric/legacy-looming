@@ -1,4 +1,4 @@
-name: Publish ${{ env.GITHUB_REF_NAME }}
+name: Publish ${{ GITHUB_REF_NAME }}
 on:
   push:
     branches:
