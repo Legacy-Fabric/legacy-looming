@@ -4,7 +4,7 @@ on:
     branches:
       - 'dev/**'
 
-run-name: Publish ${{ env.GITHUB_REF_NAME }}
+run-name: Publish $GITHUB_REF_NAME
 
 jobs:
   build:
