@@ -4,8 +4,6 @@ on:
     branches:
       - 'dev/**'
 
-run-name: Publish $GITHUB_REF_NAME
-
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -15,6 +13,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: gradle/wrapper-validation-action@v1
-      - run: ./gradlew build publish -x test --stacktrace
+      - run: ./gradlew build publish --stacktrace
         env:
           MAVEN_PUBLISH_CREDENTIALS: ${{ secrets.MAVEN_PUBLISH_CREDENTIALS }}
