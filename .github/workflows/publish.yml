@@ -1,8 +1,10 @@
-run-name: Publish ${{ env.GITHUB_REF_NAME }}
+name: Publish
 on:
   push:
     branches:
       - 'dev/**'
+
+run-name: Publish ${{ env.GITHUB_REF_NAME }}
 
 jobs:
   build:
