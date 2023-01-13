@@ -37,6 +37,8 @@ repositories {
 dependencies {
     implementation gradleApi()
 
+    implementation ('com.google.guava:guava:31.1-jre')
+
     compileOnly("net.fabricmc:fabric-loom:" + baseVersion + "-SNAPSHOT")
 }
 
