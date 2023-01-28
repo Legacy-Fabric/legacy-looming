@@ -12,7 +12,7 @@ java {
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.encoding = "UTF-8"
+	it.options.encoding = "UTF-8"
 }
 
 group 'net.legacyfabric'
@@ -48,6 +48,13 @@ jar {
     }
 }
 
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.release = 17
+}
+
 java {
     withSourcesJar()
 }
@@ -67,14 +74,6 @@ import org.w3c.dom.Node
 
 publishing {
     publications {
-        plugin(MavenPublication) { publication ->
-            groupId project.group
-            artifactId project.archivesBaseName
-            version project.version
-
-            from components.java
-        }
-
         // Also publish a snapshot so people can use the latest version if they wish
         snapshot(MavenPublication) { publication ->
             groupId project.group
