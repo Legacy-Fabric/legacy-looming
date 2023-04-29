@@ -50,8 +50,9 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
                                         var bytes = LoomGradlePlugin.GSON.toJson(object, JsonObject.class).getBytes(StandardCharsets.UTF_8);
                                         var writer = new OutputStreamWriter(new FileOutputStream(file));
                                         writer.write(bytes.toString());
+                                        writer.close();
                                     } catch (IOException e) {
-                                        e.printStackTrace();
+                                        throw new RuntimeException(e);
                                     }
                                 });
                     }
