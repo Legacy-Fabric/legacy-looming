@@ -42,7 +42,7 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
 
                                 var attributes = manifest.getMainAttributes();
                                 attributes.putValue(Constants.VERSION_PROPERTY, VERSION);
-                                attributes.putValue(Constants.INTERMEDIARY_PROPERTY, extension.getIntermediaryVersion().get());
+                                attributes.putValue(Constants.INTERMEDIARY_PROPERTY, extension.getIntermediaryVersion().get().toString());
 
                                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                                 manifest.write(out);
