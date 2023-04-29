@@ -1,6 +1,7 @@
 package net.legacyfabric.legacylooming;
 
 import com.google.common.collect.ImmutableMap;
+import net.fabricmc.loom.api.LoomGradleExtensionAPI;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.PluginAware;
@@ -14,6 +15,9 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
 
         if (target instanceof Project project) {
             project.getExtensions().create("legacyFabricApi", LegacyFabricApiExtension.class, project);
+            var extension = project.getExtensions().create(LegacyLoomingExtensionAPI.class, "legacyLooming", LegacyLoomingExtensionImpl.class, project);
+            project.getExtensions().getByType(LoomGradleExtensionAPI.class).getIntermediaryUrl()
+                    .set(Constants.getIntermediaryURL(extension.getIntermediaryVersion().get()));
         }
     }
 }
