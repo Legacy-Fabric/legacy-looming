@@ -5,6 +5,9 @@ import net.fabricmc.loom.api.LoomGradleExtensionAPI;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.PluginAware;
+import org.gradle.language.jvm.tasks.ProcessResources;
+
+import java.util.HashMap;
 
 public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
     @Override
@@ -20,6 +23,14 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
 
             project.getExtensions().create("legacyFabricApi", LegacyFabricApiExtension.class, project);
             project.getExtensions().create("legacy", LegacyUtilsExtension.class, project);
+
+            project.getTasks().withType(ProcessResources.class).configureEach(processResources -> {
+                processResources.filesMatching("fabric.mod.json", fileCopyDetails -> {
+                    var map = new HashMap<String, Object>();
+                    map.put("legacyfabric:intermediary", extension.getIntermediaryVersion().get());
+                    fileCopyDetails.expand(map);
+                });
+            });
         }
     }
 }
