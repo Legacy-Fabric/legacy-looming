@@ -113,6 +113,6 @@ public class LegacyUtilsExtension {
     private String yarnNotation(String mcVersion, String buildNumber) {
         var notation = Constants.getYarnGroup(this.extension
                 .getIntermediaryVersion().get());
-        return notation + ":" + mcVersion + "+build." + buildNumber;
+        return notation + ":" + mcVersion + "+build." + buildNumber + ":v2";
     }
 }
