@@ -40,6 +40,10 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
                             ZipUtils.transform(remapJarTask.getArchiveFile().get().getAsFile().toPath(), Map.of(MANIFEST_PATH, bytes -> {
                                 var manifest = new Manifest(new ByteArrayInputStream(bytes));
 
+                                var attributes = manifest.getMainAttributes();
+                                attributes.put(Constants.VERSION_PROPERTY, VERSION);
+                                attributes.put(Constants.INTERMEDIARY_PROPERTY, extension.getIntermediaryVersion().get());
+
                                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                                 manifest.write(out);
                                 return out.toByteArray();
