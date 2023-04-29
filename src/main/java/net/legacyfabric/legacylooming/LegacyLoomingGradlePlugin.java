@@ -14,10 +14,12 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
         target.apply(ImmutableMap.of("plugin", "fabric-loom"));
 
         if (target instanceof Project project) {
-            project.getExtensions().create("legacyFabricApi", LegacyFabricApiExtension.class, project);
             var extension = project.getExtensions().create(LegacyLoomingExtensionAPI.class, "legacyLooming", LegacyLoomingExtensionImpl.class, project);
             project.getExtensions().getByType(LoomGradleExtensionAPI.class).getIntermediaryUrl()
                     .set(Constants.getIntermediaryURL(extension.getIntermediaryVersion().get()));
+
+            project.getExtensions().create("legacyFabricApi", LegacyFabricApiExtension.class, project);
+            project.getExtensions().create("legacy", LegacyUtilsExtension.class, project);
         }
     }
 }

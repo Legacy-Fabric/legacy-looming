@@ -9,4 +9,11 @@ public class Constants {
             default -> "intermediary";
         } + "/%1$s/intermediary-%1$s-v2.jar";
     }
+
+    public static String getYarnGroup(int version) {
+        return "net.legacyfabric" + switch (version) {
+            case 2 -> ".v2:yarn";
+            default -> ":yarn";
+        };
+    }
 }
