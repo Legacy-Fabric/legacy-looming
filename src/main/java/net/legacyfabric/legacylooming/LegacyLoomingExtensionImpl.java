@@ -6,7 +6,7 @@ import org.gradle.api.provider.Property;
 public class LegacyLoomingExtensionImpl implements LegacyLoomingExtensionAPI {
     protected final Property<Integer> intermediaryVersion;
 
-    protected LegacyLoomingExtensionImpl(Project project) {
+    public LegacyLoomingExtensionImpl(Project project) {
         this.intermediaryVersion = project.getObjects().property(Integer.class).convention(1);
     }
     @Override
