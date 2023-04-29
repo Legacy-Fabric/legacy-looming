@@ -2,7 +2,7 @@ package net.legacyfabric.legacylooming;
 
 public class Constants {
     public static final String MAVEN = "https://repo.legacyfabric.net/repository/legacyfabric/";
-    public static final String INTERMEDIARY_PROPERTY = "legacyfabric:intermediary";
+    public static final String INTERMEDIARY_PROPERTY = "Legacy-Fabric-Intermediary-Version";
 
     public static String getIntermediaryURL(int version) {
         return MAVEN + "net/legacyfabric/" + switch (version) {
