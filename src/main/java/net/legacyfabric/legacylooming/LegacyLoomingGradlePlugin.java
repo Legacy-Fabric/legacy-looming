@@ -21,8 +21,8 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
             project.getExtensions().getByType(LoomGradleExtensionAPI.class).getIntermediaryUrl()
                     .set(Constants.getIntermediaryURL(extension.getIntermediaryVersion().get()));
 
-            project.getExtensions().create("legacyFabricApi", LegacyFabricApiExtension.class, project);
             project.getExtensions().create("legacy", LegacyUtilsExtension.class, project);
+            project.getExtensions().create("legacyFabricApi", LegacyFabricApiExtension.class, project);
 
             project.getTasks().withType(ProcessResources.class).configureEach(processResources -> {
                 processResources.filesMatching("fabric.mod.json", fileCopyDetails -> {
