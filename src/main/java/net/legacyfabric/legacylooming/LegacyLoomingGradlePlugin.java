@@ -1,6 +1,7 @@
 package net.legacyfabric.legacylooming;
 
 import com.google.common.collect.ImmutableMap;
+import net.fabricmc.loom.LoomGradleExtension;
 import net.fabricmc.loom.api.LoomGradleExtensionAPI;
 import net.fabricmc.loom.task.AbstractRemapJarTask;
 import net.fabricmc.loom.util.ZipUtils;
@@ -32,6 +33,16 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
 
             project.getExtensions().create("legacy", LegacyUtilsExtension.class, project);
             project.getExtensions().create("legacyFabricApi", LegacyFabricApiExtension.class, project);
+
+            if (LWJGL2VersionOverride.overrideByDefault(((LoomGradleExtension) project.getExtensions()
+                    .getByType(LoomGradleExtensionAPI.class))
+                    .getMinecraftProvider().getVersionInfo())) {
+                project.getConfigurations().getByName(net.fabricmc.loom.util.Constants.Configurations.MINECRAFT_DEPENDENCIES)
+                        .getDependencies().removeIf(dependency -> Objects.equals(dependency.getGroup(), "org.lwjgl.lwjgl"));
+                project.getConfigurations().getByName(net.fabricmc.loom.util.Constants.Configurations.MINECRAFT_NATIVES)
+                        .getDependencies().removeIf(dependency -> Objects.equals(dependency.getGroup(), "org.lwjgl.lwjgl"));
+                LWJGL2VersionOverride.applyOverride(project);
+            }
 
             project.getTasks().configureEach(task -> {
                 if (task instanceof AbstractRemapJarTask remapJarTask) {
