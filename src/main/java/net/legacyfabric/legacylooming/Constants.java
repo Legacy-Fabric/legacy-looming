@@ -6,13 +6,10 @@ public class Constants {
     public static final String VERSION_PROPERTY = "Legacy-Looming-Version";
 
     public static String getIntermediaryURL(int version) {
-        var url = MAVEN + "net/legacyfabric/" + switch (version) {
+        return MAVEN + "net/legacyfabric/" + switch (version) {
             case 2 -> "v2/";
             default -> "";
         } + "intermediary/%1$s/intermediary-%1$s-v2.jar";
-        System.out.println(version);
-        System.out.println(url);
-        return url;
     }
 
     public static String getYarnGroup(int version) {
