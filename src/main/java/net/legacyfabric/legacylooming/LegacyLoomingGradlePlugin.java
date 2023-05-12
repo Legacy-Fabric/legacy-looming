@@ -29,7 +29,7 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
 
             var extension = project.getExtensions().create(LegacyLoomingExtensionAPI.class, "legacyLooming", LegacyLoomingExtensionImpl.class, project);
             project.getExtensions().getByType(LoomGradleExtensionAPI.class).getIntermediaryUrl()
-                    .set(extension.getIntermediaryVersion().map(it->Constants.getIntermediaryURL(it)));
+                    .set(extension.getIntermediaryVersion().map(Constants::getIntermediaryURL));
 
             project.getExtensions().create("legacy", LegacyUtilsExtension.class, project);
             project.getExtensions().create("legacyFabricApi", LegacyFabricApiExtension.class, project);
