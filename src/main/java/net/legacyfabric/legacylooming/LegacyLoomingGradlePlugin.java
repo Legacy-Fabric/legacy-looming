@@ -1,6 +1,7 @@
 package net.legacyfabric.legacylooming;
 
 import com.google.common.collect.ImmutableMap;
+import net.fabricmc.loom.LoomGradleExtension;
 import net.fabricmc.loom.api.LoomGradleExtensionAPI;
 import net.fabricmc.loom.task.AbstractRemapJarTask;
 import net.fabricmc.loom.util.ZipUtils;
@@ -28,10 +29,19 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
 
             var extension = project.getExtensions().create(LegacyLoomingExtensionAPI.class, "legacyLooming", LegacyLoomingExtensionImpl.class, project);
             project.getExtensions().getByType(LoomGradleExtensionAPI.class).getIntermediaryUrl()
-                    .set(extension.getIntermediaryVersion().map(it->Constants.getIntermediaryURL(it)));
+                    .set(extension.getIntermediaryVersion().map(Constants::getIntermediaryURL));
 
             project.getExtensions().create("legacy", LegacyUtilsExtension.class, project);
             project.getExtensions().create("legacyFabricApi", LegacyFabricApiExtension.class, project);
+
+            if (LWJGL2VersionOverride.overrideByDefault(((LoomGradleExtension) project.getExtensions()
+                    .getByType(LoomGradleExtensionAPI.class))
+                    .getMinecraftProvider().getVersionInfo())) {
+                project.getConfigurations().forEach(conf -> {
+                    conf.getDependencies().removeIf(dependency -> Objects.equals(dependency.getGroup(), "org.lwjgl.lwjgl"));
+                });
+                LWJGL2VersionOverride.applyOverride(project);
+            }
 
             project.getTasks().configureEach(task -> {
                 if (task instanceof AbstractRemapJarTask remapJarTask) {
