@@ -30,7 +30,7 @@ public class LWJGL2VersionOverride {
     }
 
     public static void applyOverride(Project project) {
-        DEPS.forEach(s -> project.getDependencies().add(Constants.Configurations.MINECRAFT_DEPENDENCIES, s));
+        DEPS.forEach(s -> project.getDependencies().add(Constants.Configurations.MINECRAFT_CLIENT_RUNTIME_LIBRARIES, s));
         NATIVE_DEPS.forEach(s -> project.getDependencies().add(Constants.Configurations.MINECRAFT_NATIVES, s));
     }
 

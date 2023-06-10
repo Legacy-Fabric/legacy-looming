@@ -37,9 +37,10 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
             if (LWJGL2VersionOverride.overrideByDefault(((LoomGradleExtension) project.getExtensions()
                     .getByType(LoomGradleExtensionAPI.class))
                     .getMinecraftProvider().getVersionInfo())) {
-                project.getConfigurations().forEach(conf -> {
-                    conf.getDependencies().removeIf(dependency -> Objects.equals(dependency.getGroup(), "org.lwjgl.lwjgl"));
-                });
+                project.getConfigurations().stream().filter(conf ->
+                        !conf.getName().equals(net.fabricmc.loom.util.Constants.Configurations.MINECRAFT_CLIENT_COMPILE_LIBRARIES)
+                        && !conf.getName().equals(net.fabricmc.loom.util.Constants.Configurations.MINECRAFT_COMPILE_LIBRARIES))
+                        .forEach(conf -> conf.getDependencies().removeIf(dependency -> Objects.equals(dependency.getGroup(), "org.lwjgl.lwjgl")));
                 LWJGL2VersionOverride.applyOverride(project);
             }
 
