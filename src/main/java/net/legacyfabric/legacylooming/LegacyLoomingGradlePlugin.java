@@ -1,15 +1,18 @@
 package net.legacyfabric.legacylooming;
 
 import com.google.common.collect.ImmutableMap;
-import net.fabricmc.loom.LoomGradleExtension;
 import net.fabricmc.loom.api.LoomGradleExtensionAPI;
+import net.fabricmc.loom.configuration.providers.minecraft.library.LibraryProcessorManager;
 import net.fabricmc.loom.task.AbstractRemapJarTask;
 import net.fabricmc.loom.util.ZipUtils;
+import net.legacyfabric.legacylooming.processors.LWJGL2LibraryProcessor;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.PluginAware;
 
 import java.io.*;
+import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.jar.Manifest;
@@ -34,15 +37,15 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
             project.getExtensions().create("legacy", LegacyUtilsExtension.class, project);
             project.getExtensions().create("legacyFabricApi", LegacyFabricApiExtension.class, project);
 
-            /*if (LWJGL2VersionOverride.overrideByDefault(((LoomGradleExtension) project.getExtensions()
-                    .getByType(LoomGradleExtensionAPI.class))
-                    .getMinecraftProvider().getVersionInfo())) {
-                project.getConfigurations().stream().filter(conf ->
-                        !conf.getName().equals(net.fabricmc.loom.util.Constants.Configurations.MINECRAFT_CLIENT_COMPILE_LIBRARIES)
-                        && !conf.getName().equals(net.fabricmc.loom.util.Constants.Configurations.MINECRAFT_COMPILE_LIBRARIES))
-                        .forEach(conf -> conf.getDependencies().removeIf(dependency -> Objects.equals(dependency.getGroup(), "org.lwjgl.lwjgl")));
-                LWJGL2VersionOverride.applyOverride(project);
-            }*/
+            try {
+                Field listField = LibraryProcessorManager.class.getDeclaredField("LIBRARY_PROCESSORS");
+                listField.setAccessible(true);
+                List<LibraryProcessorManager.LibraryProcessorFactory<?>> list = (List<LibraryProcessorManager.LibraryProcessorFactory<?>>) listField.get(null);
+                list.add(LWJGL2LibraryProcessor::new);
+                listField.set(null, list);
+            } catch (Throwable e) {
+                project.getLogger().lifecycle("Failed to insert library processor for lwjgl 2 patching", e);
+            }
 
             project.getTasks().configureEach(task -> {
                 if (task instanceof AbstractRemapJarTask remapJarTask) {
