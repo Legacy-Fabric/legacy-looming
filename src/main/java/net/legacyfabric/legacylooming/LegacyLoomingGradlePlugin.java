@@ -12,6 +12,7 @@ import org.gradle.api.plugins.PluginAware;
 
 import java.io.*;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -40,7 +41,7 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
             try {
                 Field listField = LibraryProcessorManager.class.getDeclaredField("LIBRARY_PROCESSORS");
                 listField.setAccessible(true);
-                List<LibraryProcessorManager.LibraryProcessorFactory<?>> list = (List<LibraryProcessorManager.LibraryProcessorFactory<?>>) listField.get(null);
+                List<LibraryProcessorManager.LibraryProcessorFactory<?>> list = new ArrayList<>((List<LibraryProcessorManager.LibraryProcessorFactory<?>>) listField.get(null));
                 list.add(LWJGL2LibraryProcessor::new);
                 listField.set(null, list);
             } catch (Throwable e) {
