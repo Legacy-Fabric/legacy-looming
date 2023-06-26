@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 
 public class LWJGL2LibraryProcessor extends LibraryProcessor {
     private static final String GROUP = "org.lwjgl.lwjgl";
-    public static final String VERSION = "2.9.4+legacyfabric.4";
+    public static final String VERSION = "2.9.4+legacyfabric.5";
     public LWJGL2LibraryProcessor(Platform platform, LibraryContext context) {
         super(platform, context);
     }
