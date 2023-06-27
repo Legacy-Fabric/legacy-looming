@@ -1,6 +1,7 @@
 package net.legacyfabric.legacylooming;
 
 import com.google.common.collect.ImmutableMap;
+import net.fabricmc.loom.LoomGradleExtension;
 import net.fabricmc.loom.api.LoomGradleExtensionAPI;
 import net.fabricmc.loom.configuration.providers.minecraft.library.LibraryProcessorManager;
 import net.fabricmc.loom.task.AbstractRemapJarTask;
@@ -38,15 +39,7 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
             project.getExtensions().create("legacy", LegacyUtilsExtension.class, project);
             project.getExtensions().create("legacyFabricApi", LegacyFabricApiExtension.class, project);
 
-            try {
-                Field listField = LibraryProcessorManager.class.getDeclaredField("LIBRARY_PROCESSORS");
-                listField.setAccessible(true);
-                List<LibraryProcessorManager.LibraryProcessorFactory<?>> list = new ArrayList<>((List<LibraryProcessorManager.LibraryProcessorFactory<?>>) listField.get(null));
-                list.add(LWJGL2LibraryProcessor::new);
-                listField.set(null, list);
-            } catch (Throwable e) {
-                project.getLogger().lifecycle("Failed to insert library processor for lwjgl 2 patching", e);
-            }
+            project.getExtensions().getByType(LoomGradleExtension.class).getLibraryProcessors().add(LWJGL2LibraryProcessor::new);
 
             project.getTasks().configureEach(task -> {
                 if (task instanceof AbstractRemapJarTask remapJarTask) {
