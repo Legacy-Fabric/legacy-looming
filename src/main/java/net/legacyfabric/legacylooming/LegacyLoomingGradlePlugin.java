@@ -6,7 +6,8 @@ import net.fabricmc.loom.api.LoomGradleExtensionAPI;
 import net.fabricmc.loom.configuration.providers.minecraft.library.LibraryProcessorManager;
 import net.fabricmc.loom.task.AbstractRemapJarTask;
 import net.fabricmc.loom.util.ZipUtils;
-import net.legacyfabric.legacylooming.processors.LWJGL2LibraryProcessor;
+import net.legacyfabric.legacylooming.providers.LWJGL2LibraryProcessor;
+import net.legacyfabric.legacylooming.providers.LegacyFabricIntermediaryMappingsProvider;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.PluginAware;
@@ -33,8 +34,19 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
             project.getLogger().lifecycle("Legacy Looming: " + VERSION);
 
             var extension = project.getExtensions().create(LegacyLoomingExtensionAPI.class, "legacyLooming", LegacyLoomingExtensionImpl.class, project);
-            project.getExtensions().getByType(LoomGradleExtensionAPI.class).getIntermediaryUrl()
-                    .set(extension.getIntermediaryVersion().map(Constants::getIntermediaryURL));
+
+            project.getExtensions().getByType(LoomGradleExtensionAPI.class)
+                    .setIntermediateMappingsProvider(LegacyFabricIntermediaryMappingsProvider.class, provider -> {
+                provider.getIntermediaryUrl()
+                        .convention(extension.getIntermediaryVersion().map(Constants::getIntermediaryURL))
+                        .finalizeValueOnRead();
+
+                provider.getNameProperty()
+                        .convention(extension.getIntermediaryVersion().map(Constants::getIntermediaryName))
+                        .finalizeValueOnRead();
+
+                provider.getRefreshDeps().set(project.provider(() -> LoomGradleExtension.get(project).refreshDeps()));
+            });
 
             project.getExtensions().create("legacy", LegacyUtilsExtension.class, project);
             project.getExtensions().create("legacyFabricApi", LegacyFabricApiExtension.class, project);

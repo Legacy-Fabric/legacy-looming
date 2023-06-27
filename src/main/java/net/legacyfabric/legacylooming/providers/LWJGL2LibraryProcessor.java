@@ -1,4 +1,4 @@
-package net.legacyfabric.legacylooming.processors;
+package net.legacyfabric.legacylooming.providers;
 
 import net.fabricmc.loom.configuration.providers.minecraft.library.Library;
 import net.fabricmc.loom.configuration.providers.minecraft.library.LibraryContext;

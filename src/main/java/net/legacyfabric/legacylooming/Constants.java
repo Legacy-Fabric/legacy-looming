@@ -12,6 +12,10 @@ public class Constants {
         } + "intermediary/%1$s/intermediary-%1$s-v2.jar";
     }
 
+    public static String getIntermediaryName(int version) {
+        return "legacy-intermediary-" + version + "-v2";
+    }
+
     public static String getYarnGroup(int version) {
         return "net.legacyfabric" + switch (version) {
             case 2 -> ".v2:yarn";
