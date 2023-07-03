@@ -30,6 +30,8 @@ public class LWJGL2LibraryProcessor extends LibraryProcessor {
                 final Library.Target target = library.target() == Library.Target.NATIVES ? Library.Target.NATIVES : Library.Target.RUNTIME;
                 final Library upgradedLibrary = library.withVersion(VERSION).withTarget(target);
                 dependencyConsumer.accept(upgradedLibrary);
+
+                return false;
             }
 
             return true;
