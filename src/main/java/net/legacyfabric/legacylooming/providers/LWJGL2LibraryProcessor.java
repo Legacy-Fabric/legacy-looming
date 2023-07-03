@@ -27,9 +27,8 @@ public class LWJGL2LibraryProcessor extends LibraryProcessor {
     @Override
     public Predicate<Library> apply(Consumer<Library> dependencyConsumer) {
         return library -> {
-            System.out.println(library.group() + " " + library.name() + " " + library.version() + " " + library.classifier() + " " + library.target().name());
             if (library.group().equals("org.lwjgl.lwjgl")) {
-                final Library.Target target = library.target() == Library.Target.NATIVES ? Library.Target.NATIVES : Library.Target.RUNTIME;
+                final Library.Target target = library.target() == Library.Target.NATIVES ? Library.Target.NATIVES : Library.Target.COMPILE;
                 final Library upgradedLibrary = library.withVersion(VERSION).withTarget(target);
                 dependencyConsumer.accept(upgradedLibrary);
 
