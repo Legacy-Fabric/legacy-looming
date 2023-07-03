@@ -14,6 +14,7 @@ jobs:
           distribution: 'temurin' # See 'Supported distributions' for available options
           java-version: '17'
       - uses: gradle/wrapper-validation-action@v1
+      - run: cd test-mod && ./gradlew
       - run: ./gradlew build publish --stacktrace
         env:
           MAVEN_PUBLISH_CREDENTIALS: ${{ secrets.MAVEN_PUBLISH_CREDENTIALS }}
