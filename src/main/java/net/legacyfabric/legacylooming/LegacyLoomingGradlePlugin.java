@@ -51,7 +51,7 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
             project.getExtensions().create("legacy", LegacyUtilsExtension.class, project);
             project.getExtensions().create("legacyFabricApi", LegacyFabricApiExtension.class, project);
 
-            project.getExtensions().getByType(LoomGradleExtension.class).getLibraryProcessors().add(LWJGL2LibraryProcessor::new);
+            LoomGradleExtension.get(project).getLibraryProcessors().add(LWJGL2LibraryProcessor::new);
 
             project.getTasks().configureEach(task -> {
                 if (task instanceof AbstractRemapJarTask remapJarTask) {
