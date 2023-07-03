@@ -29,11 +29,12 @@ public class LWJGL2LibraryProcessor extends LibraryProcessor {
     public Predicate<Library> apply(Consumer<Library> dependencyConsumer) {
         return library -> {
             if (library.group().equals("org.lwjgl.lwjgl")) {
-                final Library.Target target = library.target() == Library.Target.NATIVES ? Library.Target.NATIVES : Library.Target.COMPILE;
+                if (library.name().equals("lwjgl-platform") && library.classifier() == null) return false;
+                final Library.Target target = library.target() == Library.Target.NATIVES ? Library.Target.NATIVES : Library.Target.RUNTIME;
                 final Library upgradedLibrary = library.withVersion(VERSION).withTarget(target);
                 dependencyConsumer.accept(upgradedLibrary);
 
-//                return false;
+                return target != Library.Target.NATIVES;
             }
 
             return true;
