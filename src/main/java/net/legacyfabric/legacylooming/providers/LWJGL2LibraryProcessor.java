@@ -9,7 +9,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class LWJGL2LibraryProcessor extends LibraryProcessor {
-    private static final String GROUP = "org.lwjgl.lwjgl";
     public static final String VERSION = "2.9.4+legacyfabric.5";
     public LWJGL2LibraryProcessor(Platform platform, LibraryContext context) {
         super(platform, context);
@@ -27,7 +26,7 @@ public class LWJGL2LibraryProcessor extends LibraryProcessor {
     @Override
     public Predicate<Library> apply(Consumer<Library> dependencyConsumer) {
         return library -> {
-            if (library.is(GROUP) && library.name().startsWith("lwjgl")) {
+            if (library.is("org.lwjgl.lwjgl:lwjgl") || library.is("org.lwjgl.lwjgl:lwjgl_util") || library.is("org.lwjgl.lwjgl:lwjgl-platform")) {
                 final Library.Target target = library.target() == Library.Target.NATIVES ? Library.Target.NATIVES : Library.Target.RUNTIME;
                 final Library upgradedLibrary = library.withVersion(VERSION).withTarget(target);
                 dependencyConsumer.accept(upgradedLibrary);
