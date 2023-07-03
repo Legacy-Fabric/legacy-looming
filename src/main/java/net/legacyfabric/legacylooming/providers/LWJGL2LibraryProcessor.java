@@ -34,8 +34,8 @@ public class LWJGL2LibraryProcessor extends LibraryProcessor {
                 applied = true;
                 final Library[] libs = new Library[]{
                         Library.fromMaven("org.lwjgl.lwjgl:lwjgl-platform:" + VERSION + ":" + getNativeClassifier(), Library.Target.NATIVES),
-                        Library.fromMaven("org.lwjgl.lwjgl:lwjgl_util:" + VERSION, Library.Target.RUNTIME),
-                        Library.fromMaven("org.lwjgl.lwjgl:lwjgl:" + VERSION, Library.Target.RUNTIME)
+                        Library.fromMaven("org.lwjgl.lwjgl:lwjgl_util:" + VERSION, Library.Target.COMPILE),
+                        Library.fromMaven("org.lwjgl.lwjgl:lwjgl:" + VERSION, Library.Target.COMPILE)
                 };
 
                 for (Library lib : libs) {
@@ -43,7 +43,7 @@ public class LWJGL2LibraryProcessor extends LibraryProcessor {
                 }
             }
 
-            return !library.group().equals("org.lwjgl.lwjgl") || !library.name().equals("lwjgl-platform");
+            return !library.group().equals("org.lwjgl.lwjgl");
         };
     }
 
