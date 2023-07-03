@@ -4,6 +4,7 @@ import net.fabricmc.loom.configuration.providers.minecraft.library.Library;
 import net.fabricmc.loom.configuration.providers.minecraft.library.LibraryContext;
 import net.fabricmc.loom.configuration.providers.minecraft.library.LibraryProcessor;
 import net.fabricmc.loom.util.Platform;
+import org.gradle.api.artifacts.dsl.RepositoryHandler;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -11,6 +12,7 @@ import java.util.function.Predicate;
 public class LWJGL2LibraryProcessor extends LibraryProcessor {
     private static final String GROUP = "org.lwjgl.lwjgl";
     public static final String VERSION = "2.9.4+legacyfabric.5";
+    private static boolean applied = false;
     public LWJGL2LibraryProcessor(Platform platform, LibraryContext context) {
         super(platform, context);
     }
@@ -35,5 +37,19 @@ public class LWJGL2LibraryProcessor extends LibraryProcessor {
 
             return true;
         };
+    }
+
+    @Override
+    public void applyRepositories(RepositoryHandler repositories) {
+        if (!applied) {
+            applied = true;
+
+            repositories.exclusiveContent(repository -> {
+                repository.forRepositories(repositories.findByName("Legacy Fabric"));
+                repository.filter(filter -> {
+                    filter.includeGroup("org.lwjgl.lwjgl");
+                });
+            });
+        }
     }
 }

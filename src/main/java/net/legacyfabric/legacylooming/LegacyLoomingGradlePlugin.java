@@ -33,6 +33,8 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
         if (target instanceof Project project) {
             project.getLogger().lifecycle("Legacy Looming: " + VERSION);
 
+            LoomGradleExtension.get(project).getLibraryProcessors().add(LWJGL2LibraryProcessor::new);
+
             var extension = project.getExtensions().create(LegacyLoomingExtensionAPI.class, "legacyLooming", LegacyLoomingExtensionImpl.class, project);
 
             project.getExtensions().getByType(LoomGradleExtensionAPI.class)
@@ -50,8 +52,6 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
 
             project.getExtensions().create("legacy", LegacyUtilsExtension.class, project);
             project.getExtensions().create("legacyFabricApi", LegacyFabricApiExtension.class, project);
-
-            LoomGradleExtension.get(project).getLibraryProcessors().add(LWJGL2LibraryProcessor::new);
 
             project.getTasks().configureEach(task -> {
                 if (task instanceof AbstractRemapJarTask remapJarTask) {
