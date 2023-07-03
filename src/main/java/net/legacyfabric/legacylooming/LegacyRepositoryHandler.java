@@ -32,6 +32,7 @@ public class LegacyRepositoryHandler implements Plugin<PluginAware> {
             repo.setName("Legacy Fabric");
             repo.setUrl(Constants.MAVEN);
             repo.content(content -> {
+                content.includeGroup("net.legacyfabric");
                 content.includeGroup("org.lwjgl.lwjgl");
             });
         });
