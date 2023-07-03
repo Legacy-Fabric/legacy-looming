@@ -30,11 +30,10 @@ public class LWJGL2LibraryProcessor extends LibraryProcessor {
         return library -> {
             if (library.group().equals("org.lwjgl.lwjgl")) {
                 if (library.name().equals("lwjgl-platform") && library.classifier() == null) return false;
-                final Library.Target target = library.target() == Library.Target.NATIVES ? Library.Target.NATIVES : Library.Target.RUNTIME;
-                final Library upgradedLibrary = library.withVersion(VERSION).withTarget(target);
+                final Library upgradedLibrary = library.withVersion(VERSION);
                 dependencyConsumer.accept(upgradedLibrary);
 
-                return target != Library.Target.NATIVES;
+                return false;
             }
 
             return true;
