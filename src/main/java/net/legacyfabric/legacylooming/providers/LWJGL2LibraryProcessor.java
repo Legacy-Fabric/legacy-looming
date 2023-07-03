@@ -29,7 +29,6 @@ public class LWJGL2LibraryProcessor extends LibraryProcessor {
     public Predicate<Library> apply(Consumer<Library> dependencyConsumer) {
         return library -> {
             if (library.group().equals("org.lwjgl.lwjgl")) {
-                if (library.name().equals("lwjgl-platform") && library.classifier() == null) return false;
                 final Library upgradedLibrary = library.withVersion(VERSION);
                 dependencyConsumer.accept(upgradedLibrary);
 
