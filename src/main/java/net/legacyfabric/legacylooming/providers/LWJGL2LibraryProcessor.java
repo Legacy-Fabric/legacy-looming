@@ -16,16 +16,21 @@ public class LWJGL2LibraryProcessor extends LibraryProcessor {
 
     @Override
     public ApplicationResult getApplicationResult() {
-        if (context.usesLWJGL3()) {
-            return ApplicationResult.DONT_APPLY;
+        System.out.println("Inside LWJGL2LibraryProcessor!");
+        if (!context.usesLWJGL3()) {
+
+            return ApplicationResult.MUST_APPLY;
         }
 
-        return ApplicationResult.MUST_APPLY;
+        return ApplicationResult.DONT_APPLY;
     }
 
     @Override
     public Predicate<Library> apply(Consumer<Library> dependencyConsumer) {
+        System.out.println("Inside LWJGL2LibraryProcessor apply!");
         return library -> {
+
+            System.out.println("Inside LWJGL2LibraryProcessor applying!");
             if (library.is("org.lwjgl.lwjgl:lwjgl") || library.is("org.lwjgl.lwjgl:lwjgl_util") || library.is("org.lwjgl.lwjgl:lwjgl-platform")) {
                 final Library.Target target = library.target() == Library.Target.NATIVES ? Library.Target.NATIVES : Library.Target.RUNTIME;
                 final Library upgradedLibrary = library.withVersion(VERSION).withTarget(target);

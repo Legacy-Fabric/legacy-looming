@@ -3,7 +3,6 @@ package net.legacyfabric.legacylooming;
 import com.google.common.collect.ImmutableMap;
 import net.fabricmc.loom.LoomGradleExtension;
 import net.fabricmc.loom.api.LoomGradleExtensionAPI;
-import net.fabricmc.loom.configuration.providers.minecraft.library.LibraryProcessorManager;
 import net.fabricmc.loom.task.AbstractRemapJarTask;
 import net.fabricmc.loom.util.ZipUtils;
 import net.legacyfabric.legacylooming.providers.LWJGL2LibraryProcessor;
@@ -13,9 +12,6 @@ import org.gradle.api.Project;
 import org.gradle.api.plugins.PluginAware;
 
 import java.io.*;
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.jar.Manifest;
