@@ -29,7 +29,9 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
         if (target instanceof Project project) {
             project.getLogger().lifecycle("Legacy Looming: " + VERSION);
 
-            LoomGradleExtension.get(project).getLibraryProcessors().add(LWJGL2LibraryProcessor::new);
+            if (!OperatingSystem.CURRENT_OS.isWindows()) {
+                LoomGradleExtension.get(project).getLibraryProcessors().add(LWJGL2LibraryProcessor::new);
+            }
 
             var extension = project.getExtensions().create(LegacyLoomingExtensionAPI.class, "legacyLooming", LegacyLoomingExtensionImpl.class, project);
 
