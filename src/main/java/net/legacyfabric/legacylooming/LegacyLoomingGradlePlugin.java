@@ -10,6 +10,7 @@ import net.legacyfabric.legacylooming.providers.LegacyFabricIntermediaryMappings
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.PluginAware;
+import org.gradle.api.provider.Provider;
 
 import java.io.*;
 import java.util.Map;
@@ -20,6 +21,11 @@ import static net.fabricmc.loom.task.AbstractRemapJarTask.MANIFEST_PATH;
 
 public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
     public static final String VERSION = Objects.requireNonNullElse(LegacyLoomingGradlePlugin.class.getPackage().getImplementationVersion(), "0.0.0+unknown");
+
+    private Project project;
+
+
+
     @Override
     public void apply(PluginAware target) {
         target.getPlugins().apply(LegacyRepositoryHandler.class);
@@ -28,6 +34,7 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
 
         if (target instanceof Project project) {
             project.getLogger().lifecycle("Legacy Looming: " + VERSION);
+            this.project = project;
 
             if (!OperatingSystem.CURRENT_OS.isWindows()) {
                 LoomGradleExtension.get(project).getLibraryProcessors().add(LWJGL2LibraryProcessor::new);
@@ -37,15 +44,15 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
 
             project.getExtensions().getByType(LoomGradleExtensionAPI.class)
                     .setIntermediateMappingsProvider(LegacyFabricIntermediaryMappingsProvider.class, provider -> {
-                        if (extension.useLFIntermediary().get()) {
-                            provider.getIntermediaryUrl()
-                                    .convention(extension.getIntermediaryVersion().map(Constants::getIntermediaryURL))
-                                    .finalizeValueOnRead();
-                        } else {
-                            provider.getIntermediaryUrl()
-                                    .convention("https://maven.fabricmc.net/net/fabricmc/intermediary/%1$s/intermediary-%1$s-v2.jar")
-                                    .finalizeValueOnRead();
-                        }
+                        provider.getIntermediaryUrl()
+                                .convention(extension.useLFIntermediary().map( val -> {
+                                    if (val) {
+                                        return extension.getIntermediaryVersion().map(Constants::getIntermediaryURL);
+                                    } else {
+                                        return project.provider(() -> "https://maven.fabricmc.net/net/fabricmc/intermediary/%1$s/intermediary-%1$s-v2.jar");
+                                    }
+                                }).map(Provider::get))
+                                .finalizeValueOnRead();
 
                         provider.getNameProperty()
                                 .convention(extension.getIntermediaryVersion().map(Constants::getIntermediaryName))

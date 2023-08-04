@@ -22,6 +22,10 @@ loom {
 	// }
 }
 
+legacyLooming {
+//	useLFIntermediary.set(false)
+}
+
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings(legacy.yarn(project.minecraft_version, project.yarn_build))
