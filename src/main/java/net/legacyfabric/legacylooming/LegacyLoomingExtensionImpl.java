@@ -10,9 +10,6 @@ public class LegacyLoomingExtensionImpl implements LegacyLoomingExtensionAPI {
     public LegacyLoomingExtensionImpl(Project project) {
         this.intermediaryVersion = project.getObjects().property(Integer.class).convention(1);
         this.useLFIntermediary = project.getObjects().property(Boolean.class).convention(true);
-
-        this.intermediaryVersion.finalizeValueOnRead();
-        this.useLFIntermediary.finalizeValueOnRead();
     }
     @Override
     public Property<Integer> getIntermediaryVersion() {
