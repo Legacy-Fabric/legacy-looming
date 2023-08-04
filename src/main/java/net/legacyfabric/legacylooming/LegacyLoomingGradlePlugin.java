@@ -35,22 +35,24 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
 
             var extension = project.getExtensions().create(LegacyLoomingExtensionAPI.class, "legacyLooming", LegacyLoomingExtensionImpl.class, project);
 
-            project.afterEvaluate(v -> {
-                if (extension.useLFIntermediary().get()) {
-                    project.getExtensions().getByType(LoomGradleExtensionAPI.class)
-                            .setIntermediateMappingsProvider(LegacyFabricIntermediaryMappingsProvider.class, provider -> {
-                                provider.getIntermediaryUrl()
-                                        .convention(extension.getIntermediaryVersion().map(Constants::getIntermediaryURL))
-                                        .finalizeValueOnRead();
+            project.getExtensions().getByType(LoomGradleExtensionAPI.class)
+                    .setIntermediateMappingsProvider(LegacyFabricIntermediaryMappingsProvider.class, provider -> {
+                        if (extension.useLFIntermediary().get()) {
+                            provider.getIntermediaryUrl()
+                                    .convention(extension.getIntermediaryVersion().map(Constants::getIntermediaryURL))
+                                    .finalizeValueOnRead();
+                        } else {
+                            provider.getIntermediaryUrl()
+                                    .convention("https://maven.fabricmc.net/net/fabricmc/intermediary/%1$s/intermediary-%1$s-v2.jar")
+                                    .finalizeValueOnRead();
+                        }
 
-                                provider.getNameProperty()
-                                        .convention(extension.getIntermediaryVersion().map(Constants::getIntermediaryName))
-                                        .finalizeValueOnRead();
+                        provider.getNameProperty()
+                                .convention(extension.getIntermediaryVersion().map(Constants::getIntermediaryName))
+                                .finalizeValueOnRead();
 
-                                provider.getRefreshDeps().set(project.provider(() -> LoomGradleExtension.get(project).refreshDeps()));
-                            });
-                }
-            });
+                        provider.getRefreshDeps().set(project.provider(() -> LoomGradleExtension.get(project).refreshDeps()));
+                    });
 
             project.getExtensions().create("legacy", LegacyUtilsExtension.class, project);
             project.getExtensions().create("legacyFabricApi", LegacyFabricApiExtension.class, project);
