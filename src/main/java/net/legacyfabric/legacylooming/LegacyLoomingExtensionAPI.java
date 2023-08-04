@@ -4,4 +4,6 @@ import org.gradle.api.provider.Property;
 
 public interface LegacyLoomingExtensionAPI {
     Property<Integer> getIntermediaryVersion();
+
+    Property<Boolean> useLFIntermediary();
 }
