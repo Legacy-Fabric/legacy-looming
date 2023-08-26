@@ -7,6 +7,7 @@ import net.fabricmc.loom.task.AbstractRemapJarTask;
 import net.fabricmc.loom.util.ZipUtils;
 import net.legacyfabric.legacylooming.providers.LWJGL2LibraryProcessor;
 import net.legacyfabric.legacylooming.providers.LegacyFabricIntermediaryMappingsProvider;
+import net.legacyfabric.legacylooming.tasks.MigrateLegacyMappingsTask;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.PluginAware;
@@ -23,8 +24,6 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
     public static final String VERSION = Objects.requireNonNullElse(LegacyLoomingGradlePlugin.class.getPackage().getImplementationVersion(), "0.0.0+unknown");
 
     private Project project;
-
-
 
     @Override
     public void apply(PluginAware target) {
@@ -85,6 +84,11 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
                     });
                 }
             });
+
+            // override loom's migrateMappings to fix issues
+            var migrateTask = project.getTasks().replace("migrateMappings", MigrateLegacyMappingsTask.class);
+            migrateTask.setDescription("Migrates mappings to a new version.");
+            migrateTask.getOutputs().upToDateWhen(o -> false);
         }
     }
 }
