@@ -23,8 +23,6 @@ import static net.fabricmc.loom.task.AbstractRemapJarTask.MANIFEST_PATH;
 public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
     public static final String VERSION = Objects.requireNonNullElse(LegacyLoomingGradlePlugin.class.getPackage().getImplementationVersion(), "0.0.0+unknown");
 
-    private Project project;
-
     @Override
     public void apply(PluginAware target) {
         target.getPlugins().apply(LegacyRepositoryHandler.class);
@@ -33,7 +31,6 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
 
         if (target instanceof Project project) {
             project.getLogger().lifecycle("Legacy Looming: " + VERSION);
-            this.project = project;
 
             if (!OperatingSystem.CURRENT_OS.isWindows()) {
                 LoomGradleExtension.get(project).getLibraryProcessors().add(LWJGL2LibraryProcessor::new);
@@ -61,7 +58,6 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
                     });
 
             project.getExtensions().create("legacy", LegacyUtilsExtension.class, project);
-            project.getExtensions().create("legacyFabricApi", LegacyFabricApiExtension.class, project);
 
             project.getTasks().configureEach(task -> {
                 if (task instanceof AbstractRemapJarTask remapJarTask) {
