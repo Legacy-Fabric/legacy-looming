@@ -7,7 +7,7 @@ plugins {
 
 group 'net.legacyfabric'
 base.archivesName = project.name
-def baseVersion = '1.4'
+def baseVersion = '1.5'
 
 def ENV = System.getenv()
 if (ENV.GITHUB_RUN_NUMBER) {

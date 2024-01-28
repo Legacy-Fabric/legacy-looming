@@ -11,14 +11,11 @@ import net.legacyfabric.legacylooming.tasks.MigrateLegacyMappingsTask;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.PluginAware;
-import org.gradle.api.provider.Provider;
 
 import java.io.*;
 import java.util.Map;
 import java.util.Objects;
 import java.util.jar.Manifest;
-
-import static net.fabricmc.loom.task.AbstractRemapJarTask.MANIFEST_PATH;
 
 public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
     public static final String VERSION = Objects.requireNonNullElse(LegacyLoomingGradlePlugin.class.getPackage().getImplementationVersion(), "0.0.0+unknown");
@@ -62,7 +59,7 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
             if (task instanceof AbstractRemapJarTask remapJarTask) {
                 remapJarTask.doLast(task1 -> {
                     try {
-                        ZipUtils.transform(remapJarTask.getArchiveFile().get().getAsFile().toPath(), Map.of(MANIFEST_PATH, bytes -> {
+                        ZipUtils.transform(remapJarTask.getArchiveFile().get().getAsFile().toPath(), Map.of("META-INF/MANIFEST.MF", bytes -> {
                             var manifest = new Manifest(new ByteArrayInputStream(bytes));
 
                             var attributes = manifest.getMainAttributes();
