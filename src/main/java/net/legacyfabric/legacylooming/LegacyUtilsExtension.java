@@ -21,7 +21,7 @@ public class LegacyUtilsExtension {
 
     public LegacyUtilsExtension(Project project) {
         this.project = project;
-        this.extension = this.project.getExtensions().findByType(LegacyLoomingExtensionAPI.class);
+        this.extension = LegacyLoomingExtensionAPI.get(project);
     }
 
     private static final HashMap<String, Map<String, String>> moduleVersionCache = new HashMap<>();
