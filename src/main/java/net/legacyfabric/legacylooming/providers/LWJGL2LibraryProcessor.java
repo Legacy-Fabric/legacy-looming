@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class LWJGL2LibraryProcessor extends LibraryProcessor {
-    public static final String VERSION = "2.9.4+legacyfabric.7";
+    public static final String VERSION = "2.9.4+legacyfabric.8";
     private boolean applied = false;
     public LWJGL2LibraryProcessor(Platform platform, LibraryContext context) {
         super(platform, context);
