@@ -3,7 +3,7 @@ name: Publish 1.5
 on:
   push:
     branches:
-      - "dev/1.5"
+      - "dev/1.6"
 
 jobs:
   build:

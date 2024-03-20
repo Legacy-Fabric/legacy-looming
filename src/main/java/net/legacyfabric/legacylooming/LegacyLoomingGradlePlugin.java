@@ -44,9 +44,7 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
     }
 
     private static void addLibraryProcessors(LoomGradleExtension loom) {
-        if (!OperatingSystem.CURRENT_OS.isWindows()) {
-            loom.getLibraryProcessors().add(LWJGL2LibraryProcessor::new);
-        }
+        loom.getLibraryProcessors().add(LWJGL2LibraryProcessor::new);
     }
 
     private static void setIntermediary(Project project, LegacyLoomingExtensionAPI api, LoomGradleExtensionAPI loom) {
