@@ -16,6 +16,6 @@ jobs:
           java-version: "21"
       - uses: gradle/actions/wrapper-validation@v3
       - run: cd test-mod && ./gradlew genSources
-      - run: ./gradlew build publish --stacktrace
+      - run: ./gradlew build publish --stacktrace --warning-mode all
         env:
           MAVEN_PUBLISH_CREDENTIALS: ${{ secrets.MAVEN_PUBLISH_CREDENTIALS }}
