@@ -7,7 +7,7 @@ plugins {
 
 group = 'net.legacyfabric'
 base.archivesName = project.name
-def baseVersion = '1.10'
+def baseVersion = '1.11'
 
 def ENV = System.getenv()
 if (ENV.GITHUB_RUN_NUMBER) {
@@ -44,15 +44,15 @@ jar {
 
 tasks.withType(JavaCompile).configureEach {
     it.options.encoding = "UTF-8"
-    it.options.release = 17
+    it.options.release = 21
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 
     withSourcesJar()
