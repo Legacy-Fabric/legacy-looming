@@ -1,6 +1,5 @@
 package net.legacyfabric.legacylooming;
 
-import com.google.common.collect.ImmutableMap;
 import net.fabricmc.loom.LoomGradleExtension;
 import net.fabricmc.loom.api.LoomGradleExtensionAPI;
 import net.fabricmc.loom.task.AbstractRemapJarTask;
@@ -25,7 +24,7 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
     public void apply(PluginAware target) {
         target.getPlugins().apply(LegacyRepositoryHandler.class);
 
-        target.apply(ImmutableMap.of("plugin", "fabric-loom"));
+        target.apply(Map.of("plugin", "fabric-loom"));
 
         if (target instanceof Project project) {
             project.getLogger().lifecycle("Legacy Looming: " + VERSION);

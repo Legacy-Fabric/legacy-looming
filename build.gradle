@@ -7,7 +7,7 @@ plugins {
 
 group = 'net.legacyfabric'
 base.archivesName = project.name
-def baseVersion = '1.11'
+def baseVersion = '1.12'
 
 def ENV = System.getenv()
 if (ENV.GITHUB_RUN_NUMBER) {
@@ -28,7 +28,6 @@ dependencies {
     implementation gradleApi()
 
     implementation("com.google.code.gson:gson:2.10.1")
-    implementation("com.google.guava:guava:33.0.0-jre")
 
     implementation("net.fabricmc:fabric-loom:${baseVersion}-SNAPSHOT")
 //    implementation("net.fabricmc:fabric-loom:${baseVersion}.0-alpha.5")
