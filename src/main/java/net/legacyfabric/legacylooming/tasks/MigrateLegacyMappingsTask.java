@@ -2,7 +2,7 @@ package net.legacyfabric.legacylooming.tasks;
 
 import net.fabricmc.loom.configuration.DependencyInfo;
 import net.fabricmc.loom.task.MigrateMappingsTask;
-import net.fabricmc.loom.task.service.MigrateMappingsService;
+import net.fabricmc.loom.task.service.MigrateSourceCodeMappingsService;
 import net.fabricmc.loom.util.Constants;
 import org.gradle.api.Project;
 import org.gradle.api.logging.Logger;
@@ -21,7 +21,7 @@ public abstract class MigrateLegacyMappingsTask extends MigrateMappingsTask {
     public MigrateLegacyMappingsTask() {
         super();
         this.getTempMappings().convention(this.getMappings().flatMap(this::transformMappings));
-        this.getMigrationServiceOptions().set(MigrateMappingsService.createOptions(this.getProject(), this.getTempMappings(), this.getInputDir(), this.getOutputDir()));
+        this.getMigrationServiceOptions().set(MigrateSourceCodeMappingsService.createOptions(this.getProject(), this.getTempMappings(), this.getInputDir(), this.getOutputDir()));
     }
 
     private Provider<String> transformMappings(String mappings) {
