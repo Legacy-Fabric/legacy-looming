@@ -7,7 +7,7 @@ plugins {
 
 group = 'net.legacyfabric'
 base.archivesName = project.name
-def baseVersion = '1.13'
+def baseVersion = '1.14'
 
 def ENV = System.getenv()
 if (ENV.GITHUB_RUN_NUMBER) {
@@ -27,12 +27,9 @@ repositories {
 dependencies {
     implementation gradleApi()
 
-    implementation("com.google.code.gson:gson:2.10.1")
-
     implementation("net.fabricmc:fabric-loom:${baseVersion}-SNAPSHOT")
-//    implementation("net.fabricmc:fabric-loom:${baseVersion}.0-alpha.5")
     // needed for 'validatePlugins' task, same version as used by fabric-loom
-    compileOnly("net.fabricmc:mapping-io:0.7.1")
+    compileOnly("net.fabricmc:mapping-io:0.8.0")
 }
 
 jar {
@@ -47,14 +44,9 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 java {
+    withSourcesJar()
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
-
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
-
-    withSourcesJar()
 }
 
 gradlePlugin {
