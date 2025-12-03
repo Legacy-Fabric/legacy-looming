@@ -1,5 +1,5 @@
 plugins {
-	id "fabric-loom" version "1.13-SNAPSHOT"
+	id "net.fabricmc.fabric-loom-remap" version "1.14-SNAPSHOT"
 	id "legacy-looming"
 	id "maven-publish"
 }
@@ -40,10 +40,10 @@ dependencies {
 }
 
 processResources {
-	inputs.property "version", project.version
-
+	def version = project.version
+	inputs.property "version", version
 	filesMatching("fabric.mod.json") {
-		expand "version": project.version
+		expand "version": version
 	}
 }
 

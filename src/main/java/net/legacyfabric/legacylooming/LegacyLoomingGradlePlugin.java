@@ -3,7 +3,6 @@ package net.legacyfabric.legacylooming;
 import net.fabricmc.loom.LoomGradleExtension;
 import net.fabricmc.loom.api.LoomGradleExtensionAPI;
 import net.fabricmc.loom.task.AbstractRemapJarTask;
-import net.fabricmc.loom.task.MigrateMappingsTask;
 import net.fabricmc.loom.util.ZipUtils;
 import net.legacyfabric.legacylooming.providers.LWJGL2LibraryProcessor;
 import net.legacyfabric.legacylooming.providers.LegacyFabricIntermediaryMappingsProvider;
@@ -24,7 +23,7 @@ public class LegacyLoomingGradlePlugin implements Plugin<PluginAware> {
     public void apply(PluginAware target) {
         target.getPlugins().apply(LegacyRepositoryHandler.class);
 
-        target.apply(Map.of("plugin", "fabric-loom"));
+        target.apply(Map.of("plugin", "net.fabricmc.fabric-loom-remap"));
 
         if (target instanceof Project project) {
             project.getLogger().lifecycle("Legacy Looming: " + VERSION);
